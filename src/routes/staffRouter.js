@@ -5,4 +5,7 @@ const staffController_1 = require("../controllers/staffController");
 const staffRouter = (0, express_1.Router)();
 staffRouter.get('/getAllStaff', staffController_1.getAllStaff);
 staffRouter.post('/addStaff', staffController_1.AddStaff);
+staffRouter.get("/:email", staffController_1.getStaffbyEmail);
+staffRouter.put("/:email", staffController_1.updateStaff);
+staffRouter.delete("/:email", staffController_1.deleteStaff);
 exports.default = staffRouter;

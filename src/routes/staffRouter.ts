@@ -1,12 +1,19 @@
 import {Router} from "express";
-import {AddStaff, deleteStaff, getAllStaff, getStaffbyName, updateStaff} from "../controllers/staffController";
+import {
+    AddStaff,
+    deleteStaff,
+    getAllStaff,
+    getStaffbyEmail,
+    updateStaff
+} from "../controllers/staffController";
 
 const staffRouter = Router ()
 
 staffRouter.get('/getAllStaff',getAllStaff)
 staffRouter.post('/addStaff',AddStaff)
-staffRouter.get("/:id", getStaffbyName);
-staffRouter.put("/:id", updateStaff);
-staffRouter.delete("/:id", deleteStaff);
+staffRouter.get("/:email", getStaffbyEmail);
+staffRouter.put("/:email", updateStaff);
+staffRouter.delete("/:email", deleteStaff);
+
 
 export default staffRouter;

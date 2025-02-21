@@ -1,27 +1,59 @@
 import {Request,Response} from "express";
+import prisma from "../database/prisma";
 
 // Get All Customers
 export async function getAllStaff(req: Request, res: Response) {
-    console.log("getAllStaff");
-    res.status(200).json({ message: "List of all staff" }); // Sends a response
+  const staff = await prisma.staff.findMany();
+  res.status(200).json(staff);
 }
 
 export async function AddStaff(req: Request, res: Response) {
-    console.log("Add Staff");
-    res.status(200).json({ message: "Staff added successfully" }); // Sends a response
+    try {
+        const staff = await prisma.staff.create({ data: req.body });
+        console.log(staff);
+        res.status(201).json(staff);
+    } catch (error) {
+        console.error("Error creating customer:", error); // Logs the full error details
+        res.status(500).json({ error:  "An unexpected error occurred" });
+    }
+
+
+
 }
 
 export async function updateStaff(req: Request, res: Response) {
-    console.log("Add Staff");
-    res.status(200).json({ message: "Update staff" }); // Sends a response
+
+    try{
+        const updateStaff = await prisma.staff.update({
+            where:{email:req.params.email}, data :req.body,
+        });
+        res.json(updateStaff);
+
+    }catch(error){
+        res.status(500).json({message:"Error occurred while updating"})
+
+    }
 }
 
 export async function deleteStaff(req: Request, res: Response) {
-    console.log("deleteStaff");
-    res.status(200).json({ message: "StaffDeleted" }); // Sends a response
+    try{
+        await prisma.staff.delete({where:{ email: req.params.email}})
+         res.json(
+             {message:"Staff deleted suessfully"}
+         );
+    }catch (error){
+     console.log("error"+error)
+        res.status(500).json({ error: "Error deleting customer" });
+    }
 }
 
-export async function getStaffbyName(req: Request, res: Response) {
-    console.log("getStaffByName");
-    res.status(200).json({ message: "Staff gained by name" }); // Sends a response
-}
+export async function getStaffbyEmail(req: Request, res: Response) {
+
+        const staff = await prisma.staff.findUnique({where :{ email: req.params.email}})
+        staff ? res.json(staff) : res.status(404).json({error:"Staff not Found"})
+
+    }
+
+
+
+
