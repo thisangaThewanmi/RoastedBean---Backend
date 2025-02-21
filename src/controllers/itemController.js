@@ -12,60 +12,59 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllStaff = getAllStaff;
-exports.AddStaff = AddStaff;
-exports.updateStaff = updateStaff;
-exports.deleteStaff = deleteStaff;
-exports.getStaffbyEmail = getStaffbyEmail;
+exports.getAllItems = getAllItems;
+exports.AddItem = AddItem;
+exports.updateItem = updateItem;
+exports.deleteItem = deleteItem;
+exports.getItemById = getItemById;
 const prisma_1 = __importDefault(require("../database/prisma"));
-// Get All Customers
-function getAllStaff(req, res) {
+function getAllItems(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const staff = yield prisma_1.default.staff.findMany();
-        res.status(200).json(staff);
+        const item = yield prisma_1.default.item.findMany();
+        res.status(200).json(item);
     });
 }
-function AddStaff(req, res) {
+function AddItem(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const staff = yield prisma_1.default.staff.create({ data: req.body });
-            console.log(staff);
-            res.status(201).json(staff);
+            const item = yield prisma_1.default.item.create({ data: req.body });
+            console.log(item);
+            res.status(201).json(item);
         }
         catch (error) {
-            console.error("Error creating staff:", error); // Logs the full error details
+            console.error("Error creating Item:", error); // Logs the full error details
             res.status(500).json({ error: "An unexpected error occurred" });
         }
     });
 }
-function updateStaff(req, res) {
+function updateItem(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const updateStaff = yield prisma_1.default.staff.update({
-                where: { email: req.params.email }, data: req.body,
+            const updateItem = yield prisma_1.default.item.update({
+                where: { id: req.params.id }, data: req.body,
             });
-            res.json(updateStaff);
+            res.json(updateItem);
         }
         catch (error) {
-            res.status(500).json({ message: "Error occurred while updating" });
+            res.status(500).json({ message: "Error occurred while updating Item" });
         }
     });
 }
-function deleteStaff(req, res) {
+function deleteItem(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield prisma_1.default.staff.delete({ where: { email: req.params.email } });
-            res.json({ message: "Staff deleted successfully" });
+            yield prisma_1.default.item.delete({ where: { id: req.params.id } });
+            res.json({ message: "Item deleted successfully" });
         }
         catch (error) {
             console.log("error" + error);
-            res.status(500).json({ error: "Error deleting customer" });
+            res.status(500).json({ error: "Item deleting customer" });
         }
     });
 }
-function getStaffbyEmail(req, res) {
+function getItemById(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const staff = yield prisma_1.default.staff.findUnique({ where: { email: req.params.email } });
-        staff ? res.json(staff) : res.status(404).json({ error: "Staff not Found" });
+        const item = yield prisma_1.default.item.findUnique({ where: { id: req.params.id } });
+        item ? res.json(item) : res.status(404).json({ error: "Item not Found" });
     });
 }

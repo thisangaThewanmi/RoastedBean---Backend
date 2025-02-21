@@ -13,7 +13,7 @@ export async function AddStaff(req: Request, res: Response) {
         console.log(staff);
         res.status(201).json(staff);
     } catch (error) {
-        console.error("Error creating customer:", error); // Logs the full error details
+        console.error("Error creating staff:", error); // Logs the full error details
         res.status(500).json({ error:  "An unexpected error occurred" });
     }
 
@@ -39,7 +39,7 @@ export async function deleteStaff(req: Request, res: Response) {
     try{
         await prisma.staff.delete({where:{ email: req.params.email}})
          res.json(
-             {message:"Staff deleted suessfully"}
+             {message:"Staff deleted successfully"}
          );
     }catch (error){
      console.log("error"+error)
