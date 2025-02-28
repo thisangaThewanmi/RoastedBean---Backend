@@ -30,6 +30,7 @@ function AddStaff(req, res) {
         try {
             const staff = yield prisma_1.default.staff.create({ data: req.body });
             console.log(staff);
+            console.log("Request received:", req.body);
             res.status(201).json(staff);
         }
         catch (error) {

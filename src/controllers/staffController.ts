@@ -11,6 +11,7 @@ export async function AddStaff(req: Request, res: Response) {
     try {
         const staff = await prisma.staff.create({ data: req.body });
         console.log(staff);
+        console.log("Request received:", req.body);
         res.status(201).json(staff);
     } catch (error) {
         console.error("Error creating staff:", error); // Logs the full error details

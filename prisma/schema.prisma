@@ -19,7 +19,6 @@ model Staff {
   email   String  @unique
   address String
   phone   String
-  role    String
   active  Boolean @default(true) // Defaults to true (active)
 }
 
